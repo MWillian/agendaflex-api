@@ -3,11 +3,48 @@ generator client {
 }
 
 model User{
-    id Int @id @default(autoincrement())
+    id String @id @default(uuid())
     email String @unique
     name String 
     password String
+    slug String
+
     createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    schedules Schedule[]
+    appointments Appointment[]
+
+    @@map("users")
+}
+
+model Schedule {
+    id String @id @default(uuid())
+    weekDay Int 
+    timeStartInMinutes Int
+    timeEndInMinutes Int
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade) 
+    userId String
+
+    @@unique([userId, weekDay])
+    @@map("schedules")
+}
+
+model Appointment{
+    id String @id @default(uuid())
+    date DateTime 
+    customerName String
+    customerPhone String
+    status String @default("PENDING")
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("appointments")
 }
 
 datasource db{
