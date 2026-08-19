@@ -2,6 +2,10 @@ generator client {
     provider = "prisma-client-js"
 }
 
+datasource db{
+    provider = "sqlite"
+}
+
 model User{
     id String @id @default(uuid())
     email String @unique
@@ -46,8 +50,3 @@ model Appointment{
 
     @@map("appointments")
 }
-
-datasource db{
-    provider = "sqlite"
-}
-
