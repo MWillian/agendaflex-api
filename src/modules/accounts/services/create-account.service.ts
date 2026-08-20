@@ -1,11 +1,11 @@
 import { ConflictException, Injectable } from "@nestjs/common";
-import { PrismaService } from "../../prisma/prisma.service";
-import { CreateAccountBodySchema } from "./dto/create-account.dto";
+import { PrismaService } from "../../../prisma/prisma.service";
+import { CreateAccountBodySchema } from "../dto/create-account.dto";
 import { hash } from "bcryptjs";
 
 @Injectable()
 export class CreateAccountService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async execute(data: CreateAccountBodySchema) {
     const { name, slug, email, password } = data;

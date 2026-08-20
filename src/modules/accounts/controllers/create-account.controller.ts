@@ -2,7 +2,7 @@ import { Body, ConflictException, Controller, HttpCode, Post, UsePipes } from "@
 import { ZodValidationPipe } from "../../../pipes/zod-validation-pipe";
 import type { CreateAccountBodySchema } from "../dto/create-account.dto";
 import { createAccountBodySchema } from "../dto/create-account.dto";
-import { CreateAccountService } from "../create-account.service";
+import { CreateAccountService } from "../services/create-account.service";
 
 @Controller("/accounts")
 export class CreateAccountController {
