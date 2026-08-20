@@ -4,6 +4,8 @@ import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { AuthenticateService } from "./services/auth.services";
 import { AuthenticateController } from "./controllers/auth.controller";
+import { RefreshTokenControlller } from "./controllers/refresh-token.controller";
+import { RefreshTokenService } from "./services/refresh-token.service";
 
 @Module({
     imports: [
@@ -16,8 +18,8 @@ import { AuthenticateController } from "./controllers/auth.controller";
             })
         })
     ],
-    providers: [AuthenticateService],
-    controllers: [AuthenticateController],
+    providers: [AuthenticateService, RefreshTokenService],
+    controllers: [AuthenticateController, RefreshTokenControlller],
     exports: [JwtModule]
 })
 export class AuthModule{}

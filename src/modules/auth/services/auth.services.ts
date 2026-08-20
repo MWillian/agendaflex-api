@@ -24,13 +24,23 @@ export class AuthenticateService {
 
         const isPasswordValid = await compare(password, user.password)
 
-        const accessToken = this.jwtService.sign({
-            sub: user.id,
-            slug: user.slug
-        })
+        if (isPasswordValid === false) {
+            throw new UnauthorizedException('Invalid credentials.')
+        }
+
+        const accessToken = this.jwtService.sign(
+            { sub: user.id, slug: user.slug },
+            { expiresIn: '15m' }
+        )
+
+        const refreshToken = this.jwtService.sign(
+            { sub: user.id, slug: user.slug },
+            { expiresIn: '7d' }
+        )
 
         return {
-            access_token: accessToken
+            access_token: accessToken,
+            refresh_token: refreshToken
         }
     }
 }
