@@ -6,6 +6,7 @@ import { AuthenticateService } from "./services/auth.services";
 import { AuthenticateController } from "./controllers/auth.controller";
 import { RefreshTokenControlller } from "./controllers/refresh-token.controller";
 import { RefreshTokenService } from "./services/refresh-token.service";
+import { JwtStrategy } from "./jwt.strategy";
 
 @Module({
     imports: [
@@ -18,7 +19,7 @@ import { RefreshTokenService } from "./services/refresh-token.service";
             })
         })
     ],
-    providers: [AuthenticateService, RefreshTokenService],
+    providers: [AuthenticateService, RefreshTokenService, JwtStrategy],
     controllers: [AuthenticateController, RefreshTokenControlller],
     exports: [JwtModule]
 })
