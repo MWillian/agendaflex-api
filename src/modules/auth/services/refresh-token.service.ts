@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { PrismaService } from "../../../prisma/prisma.service";
 import { JwtService } from "@nestjs/jwt";
 import { RefreshTokenBodySchema } from "../dto/refresh-token.dto";
+import { UsersRepository } from "../../accounts/repositories/user.repository";
 
 interface JwtPayload {
     sub: string,
@@ -10,7 +10,7 @@ interface JwtPayload {
 
 @Injectable()
 export class RefreshTokenService {
-    constructor(private prisma: PrismaService, private jwtservice: JwtService) { }
+    constructor(private usersRepository: UsersRepository, private jwtservice: JwtService) { }
 
     async execute({ refresh_token }: RefreshTokenBodySchema) {
         let payload: JwtPayload
@@ -20,11 +20,7 @@ export class RefreshTokenService {
             throw new UnauthorizedException('Invalid or expired refresh token')
         }
 
-        const user = await this.prisma.user.findUnique({
-            where: {
-                id: payload.sub
-            }
-        })
+        const user = await this.usersRepository.findById(payload.sub)
 
         if (!user) {
             throw new UnauthorizedException('User not found')
