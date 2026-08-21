@@ -24,10 +24,10 @@ model Schedule {
     timeStartInMinutes Int
     timeEndInMinutes Int
 
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade) 
     userId String
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade) 
 
-    @@unique([userId, weekDay])
+    @@index([userId, weekDay])
     @@map("schedules")
 }
 
