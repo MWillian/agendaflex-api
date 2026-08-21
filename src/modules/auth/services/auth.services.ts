@@ -1,22 +1,18 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { PrismaService } from "../../../prisma/prisma.service";
 import { JwtService } from "@nestjs/jwt";
 import { AuthenticateBodySchema } from "../dto/authenticate.dto";
 import { compare } from "bcryptjs";
+import { UsersRepository } from "../../accounts/repositories/user.repository";
 
 @Injectable()
 export class AuthenticateService {
     constructor(
-        private prisma: PrismaService,
+        private usersRepository: UsersRepository,
         private jwtService: JwtService
     ) { }
 
     async execute({ email, password }: AuthenticateBodySchema) {
-        const user = await this.prisma.user.findUnique({
-            where: {
-                email
-            }
-        })
+        const user = await this.usersRepository.findByEmail(email)
 
         if (!user) {
             throw new UnauthorizedException('Invalid credentials.')

@@ -1,4 +1,4 @@
-import { Controller, Module } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
@@ -7,10 +7,12 @@ import { AuthenticateController } from "./controllers/auth.controller";
 import { RefreshTokenControlller } from "./controllers/refresh-token.controller";
 import { RefreshTokenService } from "./services/refresh-token.service";
 import { JwtStrategy } from "./jwt.strategy";
+import { AccountsModule } from "../accounts/accounts.module";
 
 @Module({
     imports: [
         PassportModule,
+        AccountsModule,
         JwtModule.registerAsync({
             inject: [ConfigService],
             useFactory: (config: ConfigService) => ({
